@@ -68,9 +68,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         if (doubleBackToExitPressedOnce) {
             //signOut();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                finishAffinity();
-            }
+            finishAffinity();
             return;
         }
 
@@ -80,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     }
 
-    private void configureGoogleAuth(){
+    private void configureGoogleAuth() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
