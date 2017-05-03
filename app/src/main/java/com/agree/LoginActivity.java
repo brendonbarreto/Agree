@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private SignInButton mButtonSignIn;
     private GoogleApiClient mGoogleApiClient;
     private static boolean called = false;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void signIn() {
+        ProgressDialog.showProgress(this);
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -82,6 +84,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             } else {
                 // Google Sign In failed, update UI appropriately
                 // ...
+                ProgressDialog.dimiss();
             }
         }
     }
@@ -91,9 +94,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         FirebaseAuth.getInstance().signInWithCredential(credential)
             .addOnCompleteListener(this, task -> {
+                ProgressDialog.dimiss();
                 if (!task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
+
                 } else {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -103,7 +108,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        ProgressDialog.dimiss();
     }
 }
 

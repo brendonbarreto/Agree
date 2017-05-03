@@ -35,10 +35,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show());
+        fab.setOnClickListener(view -> startMakePactActivity());
 
         configureGoogleAuth();
+    }
+
+    private void startMakePactActivity(){
+        Intent intent = new Intent(MainActivity.this, MakePactActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -56,7 +60,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_sign_out) {
+            signOut();
             return true;
         }
 
