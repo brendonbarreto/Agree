@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -22,22 +23,45 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     boolean doubleBackToExitPressedOnce;
+    private RecyclerView mPactsRecycle;
     private GoogleApiClient mGoogleApiClient;
+    //private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(view -> startMakePactActivity());
+        startComponents();
+        //setSupportActionBar(toolbar);
+
+        List<Pact> mList = new ArrayList<>();
+
+        for(int i =0;i<10;i++){
+            Pact pact = new Pact();
+            pact.setDescription("Alguma cois que funciona "+i+1);
+            mList.add(pact);
+        }
+
+
+        PactsAdapter mAdapter = new PactsAdapter(mList);
+        mPactsRecycle.swapAdapter(mAdapter, true);
+
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(view -> startMakePactActivity());*/
 
         configureGoogleAuth();
+    }
+
+    private void startComponents() {
+        mPactsRecycle = (RecyclerView) findViewById(R.id.pacts_list);
+        //toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     private void startMakePactActivity(){
