@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
         PactsAdapter mAdapter = new PactsAdapter(mList);
-        mPactsRecycle.swapAdapter(mAdapter, true);
+        mPactsRecycle.setAdapter(mAdapter);
 
        /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(view -> startMakePactActivity());*/

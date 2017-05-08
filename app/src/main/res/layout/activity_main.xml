@@ -1,5 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -15,13 +14,36 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#3d92fc"
-            android:orientation="horizontal"/>
+            android:padding="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <android.support.v7.app.AlertController.RecycleListView
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/profile_pic"
+                android:layout_marginLeft="10dp"
+                app:civ_border_width="2dp"
+                app:civ_border_color="#fffcfc"/>
+
+            <TextView
+                android:id="@+id/user_name_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFF"
+                android:textSize="30dp"
+                android:layout_marginLeft="15dp"
+                android:text="BRENDU BARRETO"/>
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pacts_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.4"
-            android:id="@+id/pacts_list"/>
+            android:layout_weight="0.4" />
 
     </LinearLayout>
 
@@ -30,10 +52,10 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="40dp"
+        android:backgroundTint="#EC407A"
         android:clickable="true"
         android:src="@drawable/ic_add"
         app:layout_anchor="@id/viewA"
-        android:backgroundTint="#EC407A"
-        app:layout_anchorGravity="bottom|right|end"/>
+        app:layout_anchorGravity="bottom|right|end" />
 
 </android.support.design.widget.CoordinatorLayout>
