@@ -1,16 +1,13 @@
 package com.agree;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -43,14 +41,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         List<Pact> mList = new ArrayList<>();
 
-        for(int i =0;i<10;i++){
+        for (int i = 0; i < 10; i++) {
             Pact pact = new Pact();
-            pact.setDescription("Alguma cois que funciona "+i+1);
+            pact.setDescription("Pacto com stan nº " + i + 1);
             mList.add(pact);
         }
 
 
         PactsAdapter mAdapter = new PactsAdapter(mList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mPactsRecycle.setLayoutManager(mLayoutManager);
+        mPactsRecycle.setItemAnimator(new DefaultItemAnimator());
         mPactsRecycle.setAdapter(mAdapter);
 
        /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         //toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
-    private void startMakePactActivity(){
+    private void startMakePactActivity() {
         Intent intent = new Intent(MainActivity.this, MakePactActivity.class);
         startActivity(intent);
     }
@@ -103,7 +104,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         this.doubleBackToExitPressedOnce = true;
         Toast.makeText(this, "Clique novamente para sair", Toast.LENGTH_SHORT).show();
-        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+        new Handler().postDelayed(new TimerTask() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
 
     }
 
@@ -123,12 +129,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         FirebaseAuth.getInstance().signOut();
 
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                status -> {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                });
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override

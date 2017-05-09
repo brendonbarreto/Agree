@@ -16,7 +16,7 @@ public class ProgressDialog {
 
         mDialog.setContentView(R.layout.progress_layout);
 
-        if (android.os.Build.VERSION.SDK_INT <= 19 && android.os.Build.VERSION.SDK_INT >= 14) {
+        if (android.os.Build.VERSION.SDK_INT <= 19) {
             int dividerId = mDialog.getContext().getResources().getIdentifier("android:id/titleDivider", null, null);
             View divider = mDialog.findViewById(dividerId);
             divider.setBackgroundColor(Color.TRANSPARENT);

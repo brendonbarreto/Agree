@@ -1,6 +1,5 @@
 package com.agree;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +16,8 @@ public class PactsAdapter extends RecyclerView.Adapter<PactsAdapter.PactsViewHol
 
     private List<Pact> mList;
 
-    public PactsAdapter(List<Pact> lista){
-        mList=lista;
+    PactsAdapter(List<Pact> list) {
+        mList = list;
     }
 
     @Override
@@ -40,15 +39,15 @@ public class PactsAdapter extends RecyclerView.Adapter<PactsAdapter.PactsViewHol
         return mList.size();
     }
 
-    public Pact getAnot(int position){
+    public Pact getPact(int position) {
         return mList.get(position);
     }
 
-    public class PactsViewHolder extends RecyclerView.ViewHolder{
+    class PactsViewHolder extends RecyclerView.ViewHolder {
 
         public TextView pactName;
 
-        PactsViewHolder(View itemView) {
+        public PactsViewHolder(View itemView) {
             super(itemView);
 
             pactName = (TextView) itemView.findViewById(R.id.pact_name_txt);

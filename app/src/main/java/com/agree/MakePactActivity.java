@@ -4,9 +4,9 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -29,7 +29,12 @@ public class MakePactActivity extends AppCompatActivity implements DatePickerDia
                 this, MakePactActivity.this, 2017, 02, 02);
 
 
-        mDateInput.setOnClickListener(view -> datePickerDialog.show());
+        mDateInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialog.show();
+            }
+        });
 
     }
 

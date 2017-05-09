@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -37,7 +36,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         mButtonSignIn = (SignInButton) findViewById(R.id.buttonSignIn);
-        mButtonSignIn.setOnClickListener(view -> signIn());
+        mButtonSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+        });
 
         configureGoogleAuth();
 
@@ -46,13 +50,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             called =true;
         }*/
 
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
     }
 
-    private void configureGoogleAuth(){
+    private void configureGoogleAuth() {
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -93,17 +97,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
 
         FirebaseAuth.getInstance().signInWithCredential(credential)
-            .addOnCompleteListener(this, task -> {
-                ProgressDialog.dimiss();
-                if (!task.isSuccessful()) {
-                    Toast.makeText(LoginActivity.this, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        ProgressDialog.dimiss();
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
 
-                } else {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
+                        } else {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
     }
 
     @Override
